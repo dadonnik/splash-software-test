@@ -48,6 +48,9 @@ export class EventIteratorModule implements OnModuleInit {
               processor.processEvent(event.body),
             );
             await Promise.allSettled(listenersPromises);
+
+            // TODO implement checkpointing if this service is responsible for consuming events
+            // TODO v2 implement in-memory cache to prevent same events being processed multiple times
           }
         },
         processError: async (err, context) => {
