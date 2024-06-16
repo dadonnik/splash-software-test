@@ -11,6 +11,7 @@ import * as Joi from 'joi';
       validationSchema: Joi.object({
         AZURE_EVENTHUB_CONNECTION_STRING: Joi.string(),
         AZURE_EVENTHUB_NAME: Joi.string(),
+        AZURE_SERVICEBUS_CONNECTION_STRING: Joi.string(),
       }),
     }),
   ],

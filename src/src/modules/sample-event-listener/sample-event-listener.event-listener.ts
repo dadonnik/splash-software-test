@@ -2,8 +2,10 @@ import { EventProcessorInterface } from '../../event-processor.interface';
 import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()
-export class SampleModuleEventListener implements EventProcessorInterface {
-  private readonly logger = new Logger(SampleModuleEventListener.name);
+export class SampleEventListenerEventListener
+  implements EventProcessorInterface
+{
+  private readonly logger = new Logger(SampleEventListenerEventListener.name);
 
   async processEvent(eventBody: any) {
     this.logger.log(

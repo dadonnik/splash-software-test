@@ -11,18 +11,18 @@ import {
 } from '@azure/event-hubs';
 import { EventProcessorInterface } from '../../event-processor.interface';
 import { EVENT_HUB_CLIENT, EVENT_HUB_PROCESSORS } from '@constants';
-import { SampleModuleModule } from '@modules/sample-module/sample-module.module';
-import { SampleModuleEventListener } from '@modules/sample-module/sample-module.event-listener';
+import { SampleEventListenerModule } from '@modules/sample-event-listener/sample-event-listener.module';
+import { SampleEventListenerEventListener } from '@modules/sample-event-listener/sample-event-listener.event-listener';
 
 @Module({
   // Add more modules here to listen to events
-  imports: [SampleModuleModule],
+  imports: [SampleEventListenerModule],
   providers: [
     {
       provide: EVENT_HUB_PROCESSORS,
       useFactory: () => {
         // Add more listeners here to listen to events
-        return [new SampleModuleEventListener()];
+        return [new SampleEventListenerEventListener()];
       },
     },
   ],

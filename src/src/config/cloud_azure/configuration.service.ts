@@ -11,4 +11,8 @@ export class CloudAzureConfigService {
   get eventHubName(): string {
     return this.configService.get<string>('cloud_azure.eventHubName');
   }
+
+  get serviceBusUri(): string {
+    return this.configService.get<string>('cloud_azure.serviceBusUri');
+  }
 }

@@ -16,7 +16,6 @@ import { EVENT_HUB_CLIENT } from '@constants';
         const consumerGroup = '$Default';
         const eventHubName = configService.eventHubName;
 
-        console.log('connectionString', connectionString);
         const client = new EventHubConsumerClient(
           consumerGroup,
           connectionString,
