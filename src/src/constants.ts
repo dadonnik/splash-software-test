@@ -1,0 +1,2 @@
+export const EVENT_HUB_CLIENT = Symbol('EVENT_HUB_CLIENT');
+export const EVENT_HUB_PROCESSORS = Symbol('EVENT_HUB_PROCESSORS');
