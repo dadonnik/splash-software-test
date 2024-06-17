@@ -1,10 +1,12 @@
 import { Module, OnModuleInit, Logger, Inject } from '@nestjs/common';
-import { SERVICE_BUS_CLIENT } from '@constants';
+import { SERVICE_BUS_CLIENT, SERVICE_BUS_PROCESSORS } from '@constants';
 import { ServiceBusClient } from '@azure/service-bus';
 import { SampleQueueListenerModule } from '@modules/sample-queue-listener/sample-queue-listener.module';
 import { DiscoveryService, ModuleRef, Reflector } from '@nestjs/core';
-import { QueueProcessorInterface } from '../../queue-processor.interface';
-import { QUEUE_PROCESSOR } from '../../queue-processor.decorator';
+import { QueueProcessorInterface } from '../../common/interfaces/queue-processor.interface';
+import { MessageDTO } from '../../common/dtos/message.dto';
+import { plainToClass } from 'class-transformer';
+import { validateOrReject } from 'class-validator';
 
 @Module({
   imports: [SampleQueueListenerModule],
@@ -28,13 +30,13 @@ export class MessageIteratorModule implements OnModuleInit {
     for (const provider of providers) {
       if (
         !provider.metatype ||
-        !this.reflector.get(QUEUE_PROCESSOR, provider.metatype)
+        !this.reflector.get(SERVICE_BUS_PROCESSORS, provider.metatype)
       ) {
         continue;
       }
 
       const queueNames = this.reflector.get<string[]>(
-        QUEUE_PROCESSOR,
+        SERVICE_BUS_PROCESSORS,
         provider.metatype,
       );
 
@@ -63,10 +65,21 @@ export class MessageIteratorModule implements OnModuleInit {
               message.body,
             )}`,
           );
-          const listenersPromises = processors.map((processor) =>
-            processor.processMessage(queueName, message.body),
-          );
-          await Promise.allSettled(listenersPromises);
+
+          try {
+            const messageDto = plainToClass(
+              MessageDTO,
+              MessageDTO.fromServiceBusMessage(message),
+            );
+            await validateOrReject(messageDto);
+
+            const listenersPromises = processors.map((processor) =>
+              processor.processMessage(queueName, messageDto),
+            );
+            await Promise.allSettled(listenersPromises);
+          } catch (error) {
+            this.logger.error(`Validation or processing error: ${error}`);
+          }
         },
         processError: async (err) => {
           this.logger.error(`Error on ${queueName}: ${err.error.message}`);

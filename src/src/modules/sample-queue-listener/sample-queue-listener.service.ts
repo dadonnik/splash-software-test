@@ -1,15 +1,24 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { QUEUES } from '@constants';
-import { QueueProcessor } from '../../queue-processor.decorator';
-import { QueueProcessorInterface } from '../../queue-processor.interface';
+import { QueueProcessor } from '../../common/decorators/queue-processor.decorator';
+import { QueueProcessorInterface } from '../../common/interfaces/queue-processor.interface';
+import { AbstractQueueProcessor } from '../../common/abstract/abstract.queue-processor';
+import { MessageDTO } from '../../common/dtos/message.dto';
 
 @QueueProcessor([QUEUES.EMAIL])
 @Injectable()
-export class SampleQueueListenerService implements QueueProcessorInterface {
-  private readonly logger = new Logger(SampleQueueListenerService.name);
-  async processMessage(queueName: string, message: any): Promise<void> {
-    this.logger.log(
-      `Processing message from ${queueName}: ${JSON.stringify(message)}`,
-    );
+export class SampleQueueListenerService
+  extends AbstractQueueProcessor
+  implements QueueProcessorInterface
+{
+  constructor() {
+    super(SampleQueueListenerService.name);
+  }
+
+  protected handleMessage(
+    queueName: string,
+    message: MessageDTO,
+  ): Promise<void> {
+    return null;
   }
 }

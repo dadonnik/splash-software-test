@@ -1,7 +1,6 @@
 import { SetMetadata } from '@nestjs/common';
-
-export const QUEUE_PROCESSOR = 'QUEUE_PROCESSOR';
+import { SERVICE_BUS_PROCESSORS } from '@constants';
 
 export function QueueProcessor(queueNames: string[]): ClassDecorator {
-  return SetMetadata(QUEUE_PROCESSOR, queueNames);
+  return SetMetadata(SERVICE_BUS_PROCESSORS, queueNames);
 }
