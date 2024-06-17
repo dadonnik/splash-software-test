@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@azure/event-hubs": "^5.12.0",
+    "@azure/monitor-opentelemetry": "^1.6.0",
     "@azure/service-bus": "^7.9.5",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.2",
@@ -28,10 +29,20 @@
     "@nestjs/mongoose": "^10.0.6",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/typeorm": "^10.0.0",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/resources": "^1.25.0",
+    "@opentelemetry/sdk-metrics": "^1.25.0",
+    "@opentelemetry/sdk-trace-base": "^1.25.0",
+    "@opentelemetry/semantic-conventions": "^1.25.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "ioredis": "^5.4.1",
     "joi": "^17.13.1",
     "mongoose": "^8.4.1",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "winston": "^3.13.0",
+    "winston-transport": "^4.7.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

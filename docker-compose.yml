@@ -2,6 +2,9 @@ version: '3.8'
 
 services:
   backend:
+    deploy:
+      mode: replicated
+      replicas: 3
     build:
       context: .
       dockerfile: Dockerfile
@@ -15,8 +18,8 @@ services:
     volumes:
       - ./src:/usr/src/app
     ports:
-      - "${APP_PORT}:3000"
-      - "9229:9229"
+      - "3000"
+      - "9229"
     command: npm run start:debug
   mongodb:
     image: mongo:${MONGO_VERSION}
@@ -28,7 +31,15 @@ services:
       - "${MONGO_PORT}:${MONGO_PORT}"
     volumes:
       - mongodb_data:/data/db
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
 
 volumes:
   mongodb_data:
+    driver: local
+  redis_data:
     driver: local
